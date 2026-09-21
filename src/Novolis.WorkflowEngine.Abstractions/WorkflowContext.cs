@@ -1,7 +1,7 @@
 namespace Novolis.WorkflowEngine;
 
 /// <summary>
-/// Per-run metadata and ambient services available to workflow components.
+/// Per-run metadata shared by workflow components.
 /// </summary>
 public sealed class WorkflowContext
 {
@@ -13,19 +13,15 @@ public sealed class WorkflowContext
     /// <param name="workflowName">The workflow name.</param>
     /// <param name="runId">The execution identifier.</param>
     /// <param name="startedAt">The execution start time.</param>
-    /// <param name="services">The scoped services for the execution.</param>
     public WorkflowContext(
         string workflowName,
         WorkflowRunId runId,
-        DateTimeOffset startedAt,
-        IServiceProvider services)
+        DateTimeOffset startedAt)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(workflowName);
-        ArgumentNullException.ThrowIfNull(services);
         WorkflowName = workflowName;
         RunId = runId;
         StartedAt = startedAt;
-        Services = services;
     }
 
     /// <summary>The registered workflow name.</summary>
@@ -36,9 +32,6 @@ public sealed class WorkflowContext
 
     /// <summary>The UTC time at which this execution started.</summary>
     public DateTimeOffset StartedAt { get; }
-
-    /// <summary>The scoped services for this execution.</summary>
-    public IServiceProvider Services { get; }
 
     /// <summary>Mutable values shared by steps in this execution.</summary>
     public IDictionary<string, object?> Items => _items;

@@ -31,11 +31,11 @@ public sealed class WorkflowEngine(
         var runId = WorkflowRunId.New();
 
         await using var scope = scopeFactory.CreateAsyncScope();
+        var services = scope.ServiceProvider;
         var context = new WorkflowContext(
             definition.Name,
             runId,
-            startedAt,
-            scope.ServiceProvider);
+            startedAt);
 
         try
         {
@@ -47,17 +47,16 @@ public sealed class WorkflowEngine(
                     input);
             }
 
-            WorkflowDelegate pipeline = definition.ExecuteAsync;
+            WorkflowDelegate pipeline = (value, currentContext, token) =>
+                definition.ExecuteAsync(services, value, currentContext, token);
             for (var index = definition.MiddlewareTypes.Count - 1; index >= 0; index--)
             {
                 var next = pipeline;
                 var middlewareType = definition.MiddlewareTypes[index];
+                var middleware =
+                    (IWorkflowMiddleware)services.GetRequiredService(middlewareType);
                 pipeline = (value, currentContext, token) =>
-                {
-                    var middleware =
-                        (IWorkflowMiddleware)currentContext.Services.GetRequiredService(middlewareType);
-                    return middleware.InvokeAsync(value, currentContext, next, token);
-                };
+                    middleware.InvokeAsync(value, currentContext, next, token);
             }
 
             await pipeline(input, context, cancellationToken).ConfigureAwait(false);

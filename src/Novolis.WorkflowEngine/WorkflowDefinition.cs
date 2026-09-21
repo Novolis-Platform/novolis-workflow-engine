@@ -5,12 +5,12 @@ namespace Novolis.WorkflowEngine;
 /// </summary>
 public sealed class WorkflowDefinition
 {
-    private readonly WorkflowDelegate _pipeline;
+    private readonly WorkflowExecutionDelegate _pipeline;
     private readonly Func<IServiceProvider, CancellationToken, IAsyncEnumerable<object?>>? _trigger;
 
     internal WorkflowDefinition(
         WorkflowDefinitionDescriptor descriptor,
-        WorkflowDelegate pipeline,
+        WorkflowExecutionDelegate pipeline,
         Func<IServiceProvider, CancellationToken, IAsyncEnumerable<object?>>? trigger,
         IReadOnlyList<Type> middlewareTypes)
     {
@@ -52,10 +52,11 @@ public sealed class WorkflowDefinition
     }
 
     internal ValueTask<object?> ExecuteAsync(
+        IServiceProvider services,
         object? input,
         WorkflowContext context,
         CancellationToken cancellationToken) =>
-        _pipeline(input, context, cancellationToken);
+        _pipeline(services, input, context, cancellationToken);
 
     internal IReadOnlyList<Type> MiddlewareTypes { get; }
 }

@@ -12,7 +12,7 @@ public sealed class WorkflowBuilder
     private readonly IServiceCollection _services;
     private readonly string _name;
     private readonly List<Type> _middlewareTypes = [];
-    private WorkflowDelegate _pipeline = static (input, _, _) =>
+    private WorkflowExecutionDelegate _pipeline = static (_, input, _, _) =>
         ValueTask.FromResult(input);
     private Func<IServiceProvider, CancellationToken, IAsyncEnumerable<object?>>? _trigger;
     private Type? _triggerType;
@@ -76,9 +76,10 @@ public sealed class WorkflowBuilder
     {
         EnsureCanAppend(typeof(TInput));
         var previous = _pipeline;
-        _pipeline = (input, context, cancellationToken) =>
+        _pipeline = (services, input, context, cancellationToken) =>
             InvokeStepAsync<TStep, TInput, TOutput>(
                 previous,
+                services,
                 input,
                 context,
                 cancellationToken);
@@ -109,9 +110,10 @@ public sealed class WorkflowBuilder
 
         EnsureCanAppend(typeof(TPayload));
         var previous = _pipeline;
-        _pipeline = (input, context, cancellationToken) =>
+        _pipeline = (services, input, context, cancellationToken) =>
             InvokeSinkAsync<TSink, TPayload>(
                 previous,
+                services,
                 input,
                 context,
                 cancellationToken);
@@ -191,7 +193,8 @@ public sealed class WorkflowBuilder
     }
 
     private static async ValueTask<object?> InvokeStepAsync<TStep, TInput, TOutput>(
-        WorkflowDelegate previous,
+        WorkflowExecutionDelegate previous,
+        IServiceProvider services,
         object? input,
         WorkflowContext context,
         CancellationToken cancellationToken)
@@ -199,32 +202,35 @@ public sealed class WorkflowBuilder
         where TInput : class
         where TOutput : class
     {
-        var value = await previous(input, context, cancellationToken).ConfigureAwait(false);
+        var value = await previous(services, input, context, cancellationToken)
+            .ConfigureAwait(false);
         if (value is not TInput typedInput)
         {
             throw new WorkflowContractException(context.WorkflowName, typeof(TInput), value);
         }
 
-        var step = context.Services.GetRequiredService<TStep>();
+        var step = services.GetRequiredService<TStep>();
         return await step.ExecuteAsync(typedInput, context, cancellationToken)
             .ConfigureAwait(false);
     }
 
     private static async ValueTask<object?> InvokeSinkAsync<TSink, TPayload>(
-        WorkflowDelegate previous,
+        WorkflowExecutionDelegate previous,
+        IServiceProvider services,
         object? input,
         WorkflowContext context,
         CancellationToken cancellationToken)
         where TSink : class, IWorkflowSink<TPayload>
         where TPayload : class
     {
-        var value = await previous(input, context, cancellationToken).ConfigureAwait(false);
+        var value = await previous(services, input, context, cancellationToken)
+            .ConfigureAwait(false);
         if (value is not TPayload typedPayload)
         {
             throw new WorkflowContractException(context.WorkflowName, typeof(TPayload), value);
         }
 
-        var sink = context.Services.GetRequiredService<TSink>();
+        var sink = services.GetRequiredService<TSink>();
         await sink.HandleAsync(typedPayload, context, cancellationToken)
             .ConfigureAwait(false);
         return null;
