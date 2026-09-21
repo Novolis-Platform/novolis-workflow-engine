@@ -10,6 +10,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Novolis.WorkflowEngine.Abstractions\Novolis.WorkflowEngine.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\Novolis.WorkflowEngine\Novolis.WorkflowEngine.csproj" />
+    <ProjectReference Include="..\..\src\Novolis.WorkflowEngine.Channels\Novolis.WorkflowEngine.Channels.csproj" />
+    <ProjectReference Include="..\..\src\Novolis.WorkflowEngine.Hosting\Novolis.WorkflowEngine.Hosting.csproj" />
+    <ProjectReference Include="..\..\src\Novolis.WorkflowEngine.Mapping\Novolis.WorkflowEngine.Mapping.csproj" />
+    <ProjectReference Include="..\..\src\Novolis.WorkflowEngine.Scheduling\Novolis.WorkflowEngine.Scheduling.csproj" />
   </ItemGroup>
 </Project>

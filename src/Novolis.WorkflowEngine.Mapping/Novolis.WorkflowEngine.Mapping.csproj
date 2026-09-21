@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Novolis.WorkflowEngine.Mapping</PackageId>
+    <RootNamespace>Novolis.WorkflowEngine.Mapping</RootNamespace>
+    <Description>Novolis.Mapping adapters for workflow transformations.</Description>
+    <PackageTags>workflow;mapping;pipeline;dependency-injection</PackageTags>
+    <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Novolis.Mapping" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Novolis.WorkflowEngine\Novolis.WorkflowEngine.csproj" />
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>

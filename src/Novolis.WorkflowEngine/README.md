@@ -8,29 +8,23 @@
 
 # Novolis.WorkflowEngine
 
-Typed, channel-backed workflow steps for the .NET generic host.
-
-## Install
-
-```powershell
-dotnet add package Novolis.WorkflowEngine
-```
-
-## Compose a workflow
+Host-independent workflow definitions and execution.
 
 ```csharp
-builder.Services.AddWorkflow(workflow =>
-{
-    workflow
-        .StartWith<ReadStep, Input>()
-        .Then<TransformStep, Input, Output>()
-        .ThenEndWith<WriteStep, Output>();
-});
+services.AddWorkflow("normalize", workflow => workflow
+    .Accepts<RawMessage>()
+    .Then<NormalizeStep, RawMessage, NormalizedMessage>()
+    .EndWith<StoreSink, NormalizedMessage>());
+
+var result = await services
+    .BuildServiceProvider()
+    .GetRequiredService<IWorkflowEngine>()
+    .ExecuteAsync("normalize", new RawMessage("hello"));
+
+result.ThrowIfFailed();
 ```
 
-`StartWith` runs its `IStartStep<T>` when the host starts. Each `Then` consumes
-one input and publishes one output. `ThenEndWith` consumes the final value.
-Channels are registered once per payload type, so adjacent steps may share a
-payload type.
-
-See the repository README for the complete example.
+The core package does not own channels, background services, cron schedules, or
+application lifetime. Add `Novolis.WorkflowEngine.Hosting` for triggers and
+`Novolis.WorkflowEngine.Channels` or `Novolis.WorkflowEngine.Scheduling` for
+specific input sources.

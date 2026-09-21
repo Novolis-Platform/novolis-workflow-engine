@@ -1,6 +1,11 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="src/Novolis.WorkflowEngine.Abstractions/Novolis.WorkflowEngine.Abstractions.csproj" />
     <Project Path="src/Novolis.WorkflowEngine/Novolis.WorkflowEngine.csproj" />
+    <Project Path="src/Novolis.WorkflowEngine.Channels/Novolis.WorkflowEngine.Channels.csproj" />
+    <Project Path="src/Novolis.WorkflowEngine.Hosting/Novolis.WorkflowEngine.Hosting.csproj" />
+    <Project Path="src/Novolis.WorkflowEngine.Mapping/Novolis.WorkflowEngine.Mapping.csproj" />
+    <Project Path="src/Novolis.WorkflowEngine.Scheduling/Novolis.WorkflowEngine.Scheduling.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Novolis.WorkflowEngine.Unit/Novolis.WorkflowEngine.Unit.csproj" />

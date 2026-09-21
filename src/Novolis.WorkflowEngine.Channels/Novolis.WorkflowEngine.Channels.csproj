@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <PackageId>Novolis.WorkflowEngine</PackageId>
-    <RootNamespace>Novolis.WorkflowEngine</RootNamespace>
-    <Description>Named, manually invokable workflow pipelines for .NET applications.</Description>
-    <PackageTags>workflow;pipeline;dependency-injection;execution</PackageTags>
+    <PackageId>Novolis.WorkflowEngine.Channels</PackageId>
+    <RootNamespace>Novolis.WorkflowEngine.Channels</RootNamespace>
+    <Description>System.Threading.Channels trigger adapter for Novolis workflows.</Description>
+    <PackageTags>workflow;channels;hosting;messaging</PackageTags>
     <IsPackable>true</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Novolis.Messaging.Channels" />
   </ItemGroup>
 
   <ItemGroup>

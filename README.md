@@ -6,20 +6,19 @@
 </p>
 
 <p align="center">
-  <strong>Typed channel workflows for .NET hosts</strong><br/>
-  Compose start, transform, and end steps with dependency injection and hosted services.
+  <strong>Composable workflows for .NET applications</strong><br/>
+  Define named pipelines once, invoke them manually, or attach an input source.
 </p>
 <!-- novolis-marketing:end -->
 
 # novolis-workflow-engine
 
-`Novolis.WorkflowEngine` is a small, typed workflow pipeline for the .NET generic host.
-Each step is connected by a `System.Threading.Channels` channel registered through
-`Microsoft.Extensions.DependencyInjection`.
+`Novolis.WorkflowEngine` is the Novolis extraction of `Frank.WorkflowEngine`,
+redesigned around named definitions, typed transformations, per-run scopes,
+explicit results, and composable middleware.
 
-The package is the Novolis extraction of `Frank.WorkflowEngine`. The workflow engine
-uses `Novolis.Messaging.Channels`, with `Novolis.Mapping` and `Novolis.Scheduling`
-available as companion infrastructure packages for workflow hosts.
+The engine core is host-independent. Channels, cron, and generic-host pumps are
+separate packages so an application can use only the integration it needs.
 
 ## Install
 
@@ -27,58 +26,79 @@ available as companion infrastructure packages for workflow hosts.
 dotnet add package Novolis.WorkflowEngine
 ```
 
-## Quick start
+## Quick start: manual execution
+
+```csharp
+using Microsoft.Extensions.DependencyInjection;
+using Novolis.WorkflowEngine;
+
+var services = new ServiceCollection();
+services.AddWorkflow("normalize", workflow => workflow
+    .Accepts<RawMessage>()
+    .Use<TraceMiddleware>()
+    .Then<NormalizeStep, RawMessage, NormalizedMessage>()
+    .EndWith<StoreSink, NormalizedMessage>());
+
+var engine = services
+    .BuildServiceProvider()
+    .GetRequiredService<IWorkflowEngine>();
+
+var result = await engine.ExecuteAsync(
+    "normalize",
+    new RawMessage("hello"));
+
+result.ThrowIfFailed();
+```
+
+## Quick start: hosted channel input
 
 ```csharp
 using System.Threading.Channels;
 using Microsoft.Extensions.Hosting;
 using Novolis.WorkflowEngine;
+using Novolis.WorkflowEngine.Channels;
+using Novolis.WorkflowEngine.Hosting;
 
 var builder = Host.CreateApplicationBuilder(args);
-
-builder.Services.AddWorkflow(workflow =>
-{
+builder.Services.AddWorkflowChannelTrigger<RawMessage>();
+builder.Services.AddWorkflow("normalize", workflow =>
     workflow
-        .StartWith<ReadStep, Input>()
-        .Then<TransformStep, Input, Output>()
-        .ThenEndWith<WriteStep, Output>();
-});
+        .TriggeredBy<ChannelWorkflowTrigger<RawMessage>, RawMessage>()
+        .Then<NormalizeStep, RawMessage, NormalizedMessage>()
+        .EndWith<StoreSink, NormalizedMessage>());
+builder.Services.AddWorkflowHosting();
 
-await builder.Build().RunAsync();
-
-sealed record Input(string Value);
-sealed record Output(string Value);
-
-sealed class ReadStep(ChannelWriter<Input> writer) : IStartStep<Input>
-{
-    public Task RunAsync(CancellationToken cancellationToken) =>
-        writer.WriteAsync(new Input("hello"), cancellationToken).AsTask();
-}
-
-sealed class TransformStep : IStep<Input, Output>
-{
-    public Task<Output> ExecuteAsync(Input input) =>
-        Task.FromResult(new Output(input.Value.ToUpperInvariant()));
-}
-
-sealed class WriteStep : IEndStep<Output>
-{
-    public Task ExecuteAsync(Output result)
-    {
-        Console.WriteLine(result.Value);
-        return Task.CompletedTask;
-    }
-}
+using var host = builder.Build();
+await host.StartAsync();
+await host.Services
+    .GetRequiredService<ChannelWriter<RawMessage>>()
+    .WriteAsync(new RawMessage("hello"));
+await host.WaitForShutdownAsync();
 ```
 
-`StartWith` registers a hosted start runner, so the start step runs when the host
-starts. Intermediate and end steps run continuously until the host is stopped.
+Implement `IWorkflowTrigger<T>` for message buses, file watchers, timers, or
+application-specific sources. Add `Novolis.WorkflowEngine.Scheduling` for
+`CronWorkflowTrigger<T>`, or `Novolis.WorkflowEngine.Mapping` for
+`ThenMap<TMapping, TInput, TOutput>()`.
 
 ## Related projects
 
-- `src/Novolis.WorkflowEngine` — packable library.
-- `tests/Novolis.WorkflowEngine.Unit` — TUnit coverage for registration and execution.
+- `src/Novolis.WorkflowEngine.Abstractions` — stable contracts and execution records.
+- `src/Novolis.WorkflowEngine` — host-independent registry and engine.
+- `src/Novolis.WorkflowEngine.Hosting` — generic-host trigger pump.
+- `src/Novolis.WorkflowEngine.Channels` — `System.Threading.Channels` adapter.
+- `src/Novolis.WorkflowEngine.Mapping` — `Novolis.Mapping` adapter.
+- `src/Novolis.WorkflowEngine.Scheduling` — `Novolis.Scheduling` cron adapter.
+- `tests/Novolis.WorkflowEngine.Unit` — TUnit coverage for all components.
 - `d:\novolis\novolis-lab\labs\workflows\WorkflowEngineLab` — runnable integration sample.
+
+## Tests
+
+The repository uses TUnit's executable test runner:
+
+```powershell
+dotnet run --project tests/Novolis.WorkflowEngine.Unit/Novolis.WorkflowEngine.Unit.csproj
+```
 
 ## Support
 

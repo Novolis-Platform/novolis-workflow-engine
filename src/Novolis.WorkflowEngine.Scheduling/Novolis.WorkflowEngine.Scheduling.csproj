@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <PackageId>Novolis.WorkflowEngine</PackageId>
-    <RootNamespace>Novolis.WorkflowEngine</RootNamespace>
-    <Description>Named, manually invokable workflow pipelines for .NET applications.</Description>
-    <PackageTags>workflow;pipeline;dependency-injection;execution</PackageTags>
+    <PackageId>Novolis.WorkflowEngine.Scheduling</PackageId>
+    <RootNamespace>Novolis.WorkflowEngine.Scheduling</RootNamespace>
+    <Description>Cron trigger adapter for Novolis workflows.</Description>
+    <PackageTags>workflow;scheduling;cron;hosting</PackageTags>
     <IsPackable>true</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Novolis.Scheduling" />
   </ItemGroup>
 
   <ItemGroup>
