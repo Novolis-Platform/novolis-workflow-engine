@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Novolis.Mapping" />
+    <LibraryReference Include="Novolis.Mapping" />
   </ItemGroup>
 
   <ItemGroup>

@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
-    <PackageReference Include="Novolis.Scheduling" />
+    <LibraryReference Include="Novolis.Scheduling" />
   </ItemGroup>
 
   <ItemGroup>

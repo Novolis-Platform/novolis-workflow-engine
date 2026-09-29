@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
-    <PackageReference Include="Novolis.Messaging.Channels" />
+    <LibraryReference Include="Novolis.Messaging.Channels" />
   </ItemGroup>
 
   <ItemGroup>
