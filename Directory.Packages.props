@@ -16,6 +16,6 @@
     <PackageVersion Include="Novolis.Mapping" Version="2026.1.*" />
     <PackageVersion Include="Novolis.Messaging.Channels" Version="2026.1.*" />
     <PackageVersion Include="Novolis.Scheduling" Version="2026.1.*" />
-    <PackageVersion Include="TUnit" Version="1.68.17" />
+    <PackageVersion Include="TUnit" Version="1.72.4" />
   </ItemGroup>
 </Project>
