@@ -319,6 +319,11 @@ public sealed class FlowGraph
             ValidateConnection(connection, diagnostics, options);
         }
 
+        if (options.RequireAllInputsConnected)
+        {
+            ValidateRequiredInputs(diagnostics);
+        }
+
         ValidateSubgraphs(diagnostics, options);
         diagnostics.Sort(CompareDiagnostics);
         return new FlowGraphValidationResult(topology, diagnostics);
@@ -467,20 +472,24 @@ public sealed class FlowGraph
                 connection.Source.NodeId));
         }
 
-        if (options.RequireAllInputsConnected)
+    }
+
+    private void ValidateRequiredInputs(
+        ICollection<FlowGraphDiagnostic> diagnostics)
+    {
+        foreach (var node in _nodes.OrderBy(candidate => candidate.Id))
         {
-            foreach (var input in destinationNode.Descriptor.InputPorts.Where(
+            foreach (var input in node.Descriptor.InputPorts.Where(
                          port => port.Cardinality == PortCardinality.Single &&
                                  !_connections.Any(candidate =>
-                                     candidate.Destination.NodeId == destinationNode.Id &&
+                                     candidate.Destination.NodeId == node.Id &&
                                      candidate.Destination.PortId == port.Id)))
             {
                 diagnostics.Add(new FlowGraphDiagnostic(
                     FlowGraphDiagnosticCode.RequiredInputUnconnected,
                     FlowGraphDiagnosticSeverity.Error,
-                    $"Required input '{input.Id}' on node '{destinationNode.Id}' is not connected.",
-                    NodeId: destinationNode.Id,
-                    EdgeId: connection.Id,
+                    $"Required input '{input.Id}' on node '{node.Id}' is not connected.",
+                    NodeId: node.Id,
                     DestinationPort: input.Id));
             }
         }

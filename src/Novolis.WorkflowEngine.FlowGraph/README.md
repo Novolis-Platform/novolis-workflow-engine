@@ -18,7 +18,7 @@ var target = new FlowNode(NodeId.New(), new FlowNodeDescriptor(
     "Target", 1,
     [new PortDescriptor(new PortId("input"), PortDirection.Input, FlowType.Scalar)]));
 
-var graph = new FlowGraph.FlowGraph()
+var graph = new FlowGraph()
     .AddNode(source)
     .AddNode(target);
 var connection = graph.TryConnect(
