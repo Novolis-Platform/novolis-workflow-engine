@@ -16,5 +16,9 @@
     <ProjectReference Include="..\..\src\Novolis.WorkflowEngine.Hosting\Novolis.WorkflowEngine.Hosting.csproj" />
     <ProjectReference Include="..\..\src\Novolis.WorkflowEngine.Mapping\Novolis.WorkflowEngine.Mapping.csproj" />
     <ProjectReference Include="..\..\src\Novolis.WorkflowEngine.Scheduling\Novolis.WorkflowEngine.Scheduling.csproj" />
+    <ProjectReference Include="..\..\src\Novolis.WorkflowEngine.Graph\Novolis.WorkflowEngine.Graph.csproj" />
+    <ProjectReference Include="..\..\src\Novolis.WorkflowEngine.Flow\Novolis.WorkflowEngine.Flow.csproj" />
+    <ProjectReference Include="..\..\src\Novolis.WorkflowEngine.Pipeline\Novolis.WorkflowEngine.Pipeline.csproj" />
+    <ProjectReference Include="..\..\src\Novolis.WorkflowEngine.FlowGraph\Novolis.WorkflowEngine.FlowGraph.csproj" />
   </ItemGroup>
 </Project>

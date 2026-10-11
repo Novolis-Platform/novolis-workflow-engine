@@ -147,7 +147,7 @@ public sealed class Pipeline<TInput, TOutput>
         return new Pipeline<TInput, TNext>(stages);
     }
 
-    private async ValueTask<StageResult> RunAsync(
+    private async ValueTask<PipelineStageResult> RunAsync(
         TInput input,
         CancellationToken cancellationToken)
     {
@@ -165,25 +165,13 @@ public sealed class Pipeline<TInput, TOutput>
             current = result.Value;
         }
 
-        return new StageResult(true, current, null);
+        return new PipelineStageResult(true, current, null);
     }
-
-    internal interface IPipelineStage
-    {
-        ValueTask<StageResult> Invoke(
-            object? input,
-            CancellationToken cancellationToken);
-    }
-
-    internal readonly record struct StageResult(
-        bool IsSuccess,
-        object? Value,
-        Exception? Error);
 
     private sealed class SyncStage<TStageInput, TStageOutput>(
         Func<TStageInput, TStageOutput> stage) : IPipelineStage
     {
-        public ValueTask<StageResult> Invoke(
+        public ValueTask<PipelineStageResult> Invoke(
             object? input,
             CancellationToken cancellationToken)
         {
@@ -192,7 +180,7 @@ public sealed class Pipeline<TInput, TOutput>
                 throw new PipelineContractException(typeof(TStageInput), input);
             }
 
-            return ValueTask.FromResult(new StageResult(
+            return ValueTask.FromResult(new PipelineStageResult(
                 true,
                 stage(typedInput),
                 null));
@@ -202,7 +190,7 @@ public sealed class Pipeline<TInput, TOutput>
     private sealed class AsyncStage<TStageInput, TStageOutput>(
         Func<TStageInput, CancellationToken, ValueTask<TStageOutput>> stage) : IPipelineStage
     {
-        public async ValueTask<StageResult> Invoke(
+        public async ValueTask<PipelineStageResult> Invoke(
             object? input,
             CancellationToken cancellationToken)
         {
@@ -211,7 +199,7 @@ public sealed class Pipeline<TInput, TOutput>
                 throw new PipelineContractException(typeof(TStageInput), input);
             }
 
-            return new StageResult(
+            return new PipelineStageResult(
                 true,
                 await stage(typedInput, cancellationToken).ConfigureAwait(false),
                 null);
@@ -222,7 +210,7 @@ public sealed class Pipeline<TInput, TOutput>
         Func<TStageInput, CancellationToken, ValueTask<PipelineResult<TStageOutput>>> stage)
         : IPipelineStage
     {
-        public async ValueTask<StageResult> Invoke(
+        public async ValueTask<PipelineStageResult> Invoke(
             object? input,
             CancellationToken cancellationToken)
         {
@@ -234,8 +222,8 @@ public sealed class Pipeline<TInput, TOutput>
             var result = await stage(typedInput, cancellationToken).ConfigureAwait(false);
             ArgumentNullException.ThrowIfNull(result);
             return result.IsSuccess
-                ? new StageResult(true, result.Value, null)
-                : new StageResult(false, null, result.Error);
+                ? new PipelineStageResult(true, result.Value, null)
+                : new PipelineStageResult(false, null, result.Error);
         }
     }
 }
