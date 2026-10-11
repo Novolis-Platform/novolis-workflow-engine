@@ -20,6 +20,15 @@ explicit results, and composable middleware.
 The engine core is host-independent. Channels, cron, and generic-host pumps are
 separate packages so an application can use only the integration it needs.
 
+The named execution engine remains the compatibility-oriented runner. Optional
+compile-time graph packages sit beside it and do not change named workflow
+registration, DI scopes, triggers, or execution results:
+
+- `Novolis.WorkflowEngine.Graph` — immutable topology and deterministic analysis.
+- `Novolis.WorkflowEngine.Flow` — semantic types, ports, cardinality, and diagnostics.
+- `Novolis.WorkflowEngine.Pipeline` — typed linear composition with explicit result short-circuiting.
+- `Novolis.WorkflowEngine.FlowGraph` — immutable typed graphs and compiler boundaries.
+
 ## Install
 
 ```powershell
@@ -89,6 +98,10 @@ application-specific sources. Add `Novolis.WorkflowEngine.Scheduling` for
 - `src/Novolis.WorkflowEngine.Channels` — `System.Threading.Channels` adapter.
 - `src/Novolis.WorkflowEngine.Mapping` — `Novolis.Mapping` adapter.
 - `src/Novolis.WorkflowEngine.Scheduling` — `Novolis.Scheduling` cron adapter.
+- `src/Novolis.WorkflowEngine.Graph` — graph topology and analysis.
+- `src/Novolis.WorkflowEngine.Flow` — renderer-independent flow contracts.
+- `src/Novolis.WorkflowEngine.Pipeline` — linear pipeline composition.
+- `src/Novolis.WorkflowEngine.FlowGraph` — typed graph validation and compiler planning.
 - `tests/Novolis.WorkflowEngine.Unit` — TUnit coverage for all components.
 - `d:\novolis\novolis-lab\labs\workflows\WorkflowEngineLab` — runnable integration sample.
 

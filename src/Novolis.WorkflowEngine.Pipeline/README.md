@@ -8,9 +8,9 @@ Retries, persistence, compensation, and host triggers remain outside this
 package.
 
 ```csharp
-using Novolis.WorkflowEngine.Pipeline;
+using PipelineFactory = Novolis.WorkflowEngine.Pipeline.Pipeline;
 
-var pipeline = Pipeline
+var pipeline = PipelineFactory
     .Start<string>()
     .Then(value => value.Trim())
     .Then(value => value.ToUpperInvariant());
