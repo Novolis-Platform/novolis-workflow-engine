@@ -28,7 +28,9 @@ public sealed class GraphProjectionTests
         var first = engine.Layout(graph);
         var second = engine.Layout(graph);
 
-        await Assert.That(first).IsEqualTo(second);
+        await Assert.That(first.Nodes).IsEquivalentTo(second.Nodes);
+        await Assert.That(first.Edges).IsEquivalentTo(second.Edges);
+        await Assert.That(first.Bounds).IsEqualTo(second.Bounds);
         await Assert.That(first.Nodes[0].Label).IsEqualTo("source");
         await Assert.That(first.Nodes[1].Layer).IsEqualTo(1);
         await Assert.That(first.Edges.Single().Route.Count).IsEqualTo(2);
@@ -59,14 +61,14 @@ public sealed class GraphProjectionTests
     {
         var node = new NodeId(Guid.Parse(
             "00000000-0000-0000-0000-000000000021"));
-        var graph = new Graph<string>().AddNode(node, "Steel \"plate\"");
+        var graph = new Graph<string>().AddNode(node, "Steel \"<plate>\"");
         var layout = new LayeredGraphLayout().Layout(graph);
 
         var mermaid = MermaidGraphExporter.Export(graph, layout);
         var svg = SvgGraphExporter.Export(layout);
 
         await Assert.That(mermaid).Contains("\\\"");
-        await Assert.That(svg).Contains("Steel &quot;plate&quot;");
+        await Assert.That(svg).Contains("Steel \"&lt;plate&gt;\"");
         await Assert.That(svg).Contains("<svg");
     }
 }

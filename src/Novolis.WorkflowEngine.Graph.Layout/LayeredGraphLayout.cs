@@ -33,8 +33,9 @@ public sealed class LayeredGraphLayout : IGraphLayoutEngine
             foreach (var node in layer.OrderBy(candidate => candidate.Id))
             {
                 var key = node.Id.ToString();
+                var pinnedPosition = default(GraphPoint);
                 var isPinned = options.RespectPinnedPositions &&
-                    viewState.PinnedPositions.TryGetValue(key, out var pinnedPosition);
+                    viewState.PinnedPositions.TryGetValue(key, out pinnedPosition);
                 var point = isPinned
                     ? pinnedPosition
                     : new GraphPoint(
