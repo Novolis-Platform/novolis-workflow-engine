@@ -1,4 +1,5 @@
 using Novolis.WorkflowEngine.Pipeline;
+using PipelineBuilder = Novolis.WorkflowEngine.Pipeline.Pipeline;
 
 namespace Novolis.WorkflowEngine.Unit;
 
@@ -7,7 +8,7 @@ public sealed class PipelinePackageTests
     [Test]
     public async Task Typed_stages_compose_in_order()
     {
-        var pipeline = Pipeline
+        var pipeline = PipelineBuilder
             .Start<string>()
             .Then(value => value.Trim())
             .Then(value => value.ToUpperInvariant())
@@ -21,7 +22,7 @@ public sealed class PipelinePackageTests
     [Test]
     public async Task ValueTask_stage_receives_cancellation()
     {
-        var pipeline = Pipeline
+        var pipeline = PipelineBuilder
             .Start<int>()
             .Then<int>((value, cancellationToken) =>
             {
@@ -40,7 +41,7 @@ public sealed class PipelinePackageTests
     public async Task Explicit_result_stage_short_circuits()
     {
         var executed = false;
-        var pipeline = Pipeline
+        var pipeline = PipelineBuilder
             .Start<string>()
             .ThenResult(value => PipelineResult<int>.Failure("invalid"))
             .Then(value =>

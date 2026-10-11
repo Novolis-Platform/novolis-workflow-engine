@@ -6,6 +6,10 @@
     <Project Path="src/Novolis.WorkflowEngine.Hosting/Novolis.WorkflowEngine.Hosting.csproj" />
     <Project Path="src/Novolis.WorkflowEngine.Mapping/Novolis.WorkflowEngine.Mapping.csproj" />
     <Project Path="src/Novolis.WorkflowEngine.Scheduling/Novolis.WorkflowEngine.Scheduling.csproj" />
+    <Project Path="src/Novolis.WorkflowEngine.Graph/Novolis.WorkflowEngine.Graph.csproj" />
+    <Project Path="src/Novolis.WorkflowEngine.Flow/Novolis.WorkflowEngine.Flow.csproj" />
+    <Project Path="src/Novolis.WorkflowEngine.Pipeline/Novolis.WorkflowEngine.Pipeline.csproj" />
+    <Project Path="src/Novolis.WorkflowEngine.FlowGraph/Novolis.WorkflowEngine.FlowGraph.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Novolis.WorkflowEngine.Unit/Novolis.WorkflowEngine.Unit.csproj" />

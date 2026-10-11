@@ -69,7 +69,7 @@ public sealed class FlowGraphPackageTests
         var affectedOutputs = graph.GetAffectedOutputs([source.Id]);
 
         await Assert.That(validation.IsValid).IsTrue();
-        await Assert.That(graph.TopologicalSort.Count).IsEqualTo(3);
+        await Assert.That(graph.TopologicalSort().Count).IsEqualTo(3);
         await Assert.That(affectedOutputs.Contains(target.Id)).IsTrue();
         await Assert.That(affectedOutputs.Contains(source.Id)).IsFalse();
     }
