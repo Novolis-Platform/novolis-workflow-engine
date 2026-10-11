@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Novolis.WorkflowEngine.Graph.Export.Svg</PackageId>
+    <RootNamespace>Novolis.WorkflowEngine.Graph.Export.Svg</RootNamespace>
+    <Description>SVG documentation export for Novolis workflow graph layouts.</Description>
+    <PackageTags>workflow;graph;svg;documentation;export</PackageTags>
+    <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Novolis.WorkflowEngine.Graph\Novolis.WorkflowEngine.Graph.csproj" />
+    <ProjectReference Include="..\Novolis.WorkflowEngine.Graph.Layout\Novolis.WorkflowEngine.Graph.Layout.csproj" />
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>

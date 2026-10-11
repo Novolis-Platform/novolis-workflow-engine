@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Novolis.WorkflowEngine.Graph.Layout</PackageId>
+    <RootNamespace>Novolis.WorkflowEngine.Graph.Layout</RootNamespace>
+    <Description>Deterministic graph layout and editor view state for Novolis workflows.</Description>
+    <PackageTags>workflow;graph;layout;editor;topology</PackageTags>
+    <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Novolis.WorkflowEngine.Graph\Novolis.WorkflowEngine.Graph.csproj" />
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>

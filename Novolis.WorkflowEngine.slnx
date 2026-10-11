@@ -7,6 +7,9 @@
     <Project Path="src/Novolis.WorkflowEngine.Mapping/Novolis.WorkflowEngine.Mapping.csproj" />
     <Project Path="src/Novolis.WorkflowEngine.Scheduling/Novolis.WorkflowEngine.Scheduling.csproj" />
     <Project Path="src/Novolis.WorkflowEngine.Graph/Novolis.WorkflowEngine.Graph.csproj" />
+    <Project Path="src/Novolis.WorkflowEngine.Graph.Layout/Novolis.WorkflowEngine.Graph.Layout.csproj" />
+    <Project Path="src/Novolis.WorkflowEngine.Graph.Export.Mermaid/Novolis.WorkflowEngine.Graph.Export.Mermaid.csproj" />
+    <Project Path="src/Novolis.WorkflowEngine.Graph.Export.Svg/Novolis.WorkflowEngine.Graph.Export.Svg.csproj" />
     <Project Path="src/Novolis.WorkflowEngine.Flow/Novolis.WorkflowEngine.Flow.csproj" />
     <Project Path="src/Novolis.WorkflowEngine.Pipeline/Novolis.WorkflowEngine.Pipeline.csproj" />
     <Project Path="src/Novolis.WorkflowEngine.FlowGraph/Novolis.WorkflowEngine.FlowGraph.csproj" />

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Novolis.WorkflowEngine.Graph.Export.Mermaid</PackageId>
+    <RootNamespace>Novolis.WorkflowEngine.Graph.Export.Mermaid</RootNamespace>
+    <Description>Mermaid documentation export for Novolis workflow graphs.</Description>
+    <PackageTags>workflow;graph;mermaid;documentation;export</PackageTags>
+    <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Novolis.WorkflowEngine.Graph\Novolis.WorkflowEngine.Graph.csproj" />
+    <ProjectReference Include="..\Novolis.WorkflowEngine.Graph.Layout\Novolis.WorkflowEngine.Graph.Layout.csproj" />
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>
