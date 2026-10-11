@@ -168,14 +168,14 @@ public sealed class Pipeline<TInput, TOutput>
         return new StageResult(true, current, null);
     }
 
-    private interface IPipelineStage
+    internal interface IPipelineStage
     {
         ValueTask<StageResult> Invoke(
             object? input,
             CancellationToken cancellationToken);
     }
 
-    private readonly record struct StageResult(
+    internal readonly record struct StageResult(
         bool IsSuccess,
         object? Value,
         Exception? Error);

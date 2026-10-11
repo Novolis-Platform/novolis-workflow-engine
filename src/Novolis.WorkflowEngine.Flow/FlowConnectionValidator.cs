@@ -16,16 +16,25 @@ public sealed class FlowConnectionValidator
     /// <param name="existingDestinationConnections">
     /// Number of connections already attached to the destination.
     /// </param>
+    /// <param name="existingSourceConnections">
+    /// Number of connections already attached to the source.
+    /// </param>
     public FlowConnectionResult Validate(
         PortDescriptor source,
         PortDescriptor destination,
-        int existingDestinationConnections = 0)
+        int existingDestinationConnections = 0,
+        int existingSourceConnections = 0)
     {
         ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(destination);
         if (existingDestinationConnections < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(existingDestinationConnections));
+        }
+
+        if (existingSourceConnections < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(existingSourceConnections));
         }
 
         var diagnostics = new List<FlowDiagnostic>();
@@ -65,6 +74,16 @@ public sealed class FlowConnectionValidator
                 FlowDiagnosticCode.CardinalityExceeded,
                 FlowDiagnosticSeverity.Error,
                 $"Destination port '{destination.Id}' does not accept another connection.",
+                SourcePort: source.Id,
+                DestinationPort: destination.Id));
+        }
+
+        if (!source.AllowsConnection(existingSourceConnections))
+        {
+            diagnostics.Add(new FlowDiagnostic(
+                FlowDiagnosticCode.CardinalityExceeded,
+                FlowDiagnosticSeverity.Error,
+                $"Source port '{source.Id}' does not accept another connection.",
                 SourcePort: source.Id,
                 DestinationPort: destination.Id));
         }

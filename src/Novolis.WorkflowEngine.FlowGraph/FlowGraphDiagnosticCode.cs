@@ -50,6 +50,12 @@ public enum FlowGraphDiagnosticCode
     /// <summary>A subgraph dependency is recursive.</summary>
     RecursiveSubgraph,
 
+    /// <summary>A subgraph identity occurs more than once.</summary>
+    DuplicateSubgraphId,
+
+    /// <summary>A referenced subgraph dependency is missing.</summary>
+    MissingSubgraphDependency,
+
     /// <summary>A required input port has no connection.</summary>
     RequiredInputUnconnected,
 }

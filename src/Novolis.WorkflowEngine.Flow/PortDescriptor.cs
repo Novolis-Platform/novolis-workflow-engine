@@ -12,7 +12,7 @@ public sealed record PortDescriptor
         PortId id,
         PortDirection direction,
         FlowType type,
-        PortCardinality cardinality = PortCardinality.Single)
+        PortCardinality? cardinality = null)
     {
         if (string.IsNullOrWhiteSpace(id.Value))
         {
@@ -23,7 +23,10 @@ public sealed record PortDescriptor
         Id = id;
         Direction = direction;
         Type = type;
-        Cardinality = cardinality;
+        Cardinality = cardinality ?? (
+            direction == PortDirection.Output
+                ? PortCardinality.Many
+                : PortCardinality.Single);
     }
 
     /// <summary>The stable port identity.</summary>
