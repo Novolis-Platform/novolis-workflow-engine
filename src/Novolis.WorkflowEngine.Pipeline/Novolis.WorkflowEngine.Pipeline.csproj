@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Novolis.WorkflowEngine.Pipeline</PackageId>
+    <RootNamespace>Novolis.WorkflowEngine.Pipeline</RootNamespace>
+    <Description>Typed linear pipeline composition with explicit result short-circuiting.</Description>
+    <PackageTags>workflow;pipeline;flow;composition;async</PackageTags>
+    <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Novolis.WorkflowEngine.Flow\Novolis.WorkflowEngine.Flow.csproj" />
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>

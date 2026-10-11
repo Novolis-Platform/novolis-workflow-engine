@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Novolis.WorkflowEngine.FlowGraph</PackageId>
+    <RootNamespace>Novolis.WorkflowEngine.FlowGraph</RootNamespace>
+    <Description>Typed immutable flow graphs built from Novolis graph and flow contracts.</Description>
+    <PackageTags>workflow;flow;graph;typed;compiler</PackageTags>
+    <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Novolis.WorkflowEngine.Graph\Novolis.WorkflowEngine.Graph.csproj" />
+    <ProjectReference Include="..\Novolis.WorkflowEngine.Flow\Novolis.WorkflowEngine.Flow.csproj" />
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>
