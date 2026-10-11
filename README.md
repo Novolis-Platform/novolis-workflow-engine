@@ -25,6 +25,9 @@ compile-time graph packages sit beside it and do not change named workflow
 registration, DI scopes, triggers, or execution results:
 
 - `Novolis.WorkflowEngine.Graph` — immutable topology and deterministic analysis.
+- `Novolis.WorkflowEngine.Graph.Layout` — deterministic editor layout and view state.
+- `Novolis.WorkflowEngine.Graph.Export.Mermaid` — escaped Mermaid documentation output.
+- `Novolis.WorkflowEngine.Graph.Export.Svg` — standalone SVG documentation output.
 - `Novolis.WorkflowEngine.Flow` — semantic types, ports, cardinality, and diagnostics.
 - `Novolis.WorkflowEngine.Pipeline` — typed linear composition with explicit result short-circuiting.
 - `Novolis.WorkflowEngine.FlowGraph` — immutable typed graphs and compiler boundaries.
