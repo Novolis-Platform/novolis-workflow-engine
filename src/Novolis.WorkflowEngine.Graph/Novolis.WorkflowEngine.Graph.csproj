@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Novolis.WorkflowEngine.Graph</PackageId>
+    <RootNamespace>Novolis.WorkflowEngine.Graph</RootNamespace>
+    <Description>Immutable graph topology and deterministic graph analysis for Novolis workflows.</Description>
+    <PackageTags>workflow;graph;topology;dag;analysis</PackageTags>
+    <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>

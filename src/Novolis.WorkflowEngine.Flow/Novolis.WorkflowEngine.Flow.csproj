@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>Novolis.WorkflowEngine.Flow</PackageId>
+    <RootNamespace>Novolis.WorkflowEngine.Flow</RootNamespace>
+    <Description>Renderer-independent typed ports and flow contracts for Novolis workflows.</Description>
+    <PackageTags>workflow;flow;ports;types;contracts</PackageTags>
+    <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>
